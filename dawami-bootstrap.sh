@@ -3,7 +3,7 @@ set -Eeuo pipefail
 IFS=$'\n\t'
 
 BOOTSTRAP_VERSION="1.0.0"
-INSTALLER_REPO="${INSTALLER_REPO:-amotalless/Dawami365-Installer}"
+INSTALLER_REPO="${INSTALLER_REPO:-scharfesicht/Dawami365-Installer}"
 WORK_DIR="${WORK_DIR:-/tmp/dawami365-bootstrap}"
 
 log()  { printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
