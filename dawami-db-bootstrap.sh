@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 IFS=$'\n\t'
-BOOTSTRAP_VERSION="1.0.2"
+BOOTSTRAP_VERSION="1.0.3"
 INSTALLER_REPO="${INSTALLER_REPO:-scharfesicht/Dawami365-Installer}"
 WORK_DIR="${WORK_DIR:-/tmp/dawami365-db-bootstrap}"
 log(){ printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$*"; }
