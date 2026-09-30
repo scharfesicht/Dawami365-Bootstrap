@@ -4,7 +4,7 @@ IFS=$'\n\t'
 export LC_ALL=C
 umask 077
 
-BOOTSTRAP_VERSION="1.0.3"
+BOOTSTRAP_VERSION="1.0.4"
 INSTALLER_REPO="${INSTALLER_REPO:-scharfesicht/Dawami365-Installer}"
 WORK_DIR="${WORK_DIR:-/tmp/dawami365-app-bootstrap}"
 
@@ -31,7 +31,7 @@ for cmd in curl jq sha256sum tar; do
 done
 
 INPUT_TAG="${1:-}"
-[[ -n "$INPUT_TAG" ]] || fail "Usage: sudo $0 <app-v1.0.3|v1.0.3|1.0.3>"
+[[ -n "$INPUT_TAG" ]] || fail "Usage: sudo $0 <app-v1.0.4|v1.0.4|1.0.4>"
 
 case "$INPUT_TAG" in
   app-v*)
