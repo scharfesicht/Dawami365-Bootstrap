@@ -4,7 +4,7 @@ IFS=$'\n\t'
 export LC_ALL=C
 umask 077
 
-BOOTSTRAP_VERSION="1.0.5"
+BOOTSTRAP_VERSION="1.0.6"
 INSTALLER_REPO="${INSTALLER_REPO:-scharfesicht/Dawami365-Installer}"
 WORK_DIR="${WORK_DIR:-/tmp/dawami365-app-bootstrap}"
 
@@ -31,7 +31,14 @@ for cmd in curl jq sha256sum tar; do
 done
 
 INPUT_TAG="${1:-}"
-[[ -n "$INPUT_TAG" ]] || fail "Usage: sudo $0 <app-v1.0.5|v1.0.5|1.0.5>"
+APP_IMAGE_VERSION="${2:-${DAWAMI_APP_IMAGE_VERSION:-}}"
+APP_IMAGE_DIGEST="${3:-${DAWAMI_APP_IMAGE_DIGEST:-}}"
+
+[[ -n "$INPUT_TAG" ]] || fail "Usage: sudo $0 <app-v1.0.6|v1.0.6|1.0.6> <application-image-version> <sha256:digest>"
+[[ -n "$APP_IMAGE_VERSION" ]] || fail "Application image version is required. Example: 2026.10.01.1"
+[[ "$APP_IMAGE_VERSION" =~ ^[0-9]{4}\.[0-9]{2}\.[0-9]{2}\.[0-9]+$ ]] || fail "Invalid application image version: $APP_IMAGE_VERSION"
+[[ -n "$APP_IMAGE_DIGEST" ]] || fail "Application image digest is required."
+[[ "$APP_IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]] || fail "Invalid application image digest: $APP_IMAGE_DIGEST"
 
 case "$INPUT_TAG" in
   app-v*)
@@ -125,4 +132,12 @@ CURL_CONFIG=""
 unset GH_TOKEN
 
 cd "$WORK_DIR/extracted"
-exec "$entry"
+
+export DAWAMI_APP_IMAGE_VERSION="$APP_IMAGE_VERSION"
+export DAWAMI_APP_IMAGE_DIGEST="$APP_IMAGE_DIGEST"
+
+log "Installer release : $RELEASE_TAG"
+log "Application image : scharfesicht/dawami365:$DAWAMI_APP_IMAGE_VERSION"
+log "Image digest      : $DAWAMI_APP_IMAGE_DIGEST"
+
+exec "$entry" "$APP_IMAGE_VERSION" "$APP_IMAGE_DIGEST"
